@@ -3,7 +3,6 @@ class DataModel {
   String name, email, phone, password;
   DataModel(
       {required this.name, required this.email, required this.phone, required this.password});
-
 }
 class LoginDetails extends StatelessWidget{
   final DataModel dataModel1;
