@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'LoginDetail.dart';
-
-
 void main(){
   runApp(LoginPage());
 }
