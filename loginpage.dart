@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main(){
   runApp(SignUp());
@@ -14,22 +17,50 @@ class SignUp extends StatelessWidget{
    );
   }
 }
-class LogIn extends StatelessWidget{
+
+class LogIn extends StatefulWidget{
+
+  @override
+  State<LogIn> createState() => _LogInState();
+}
+
+class _LogInState extends State<LogIn> {
+  final ImagePicker imagePicker=ImagePicker();
+  File? image;
+
   var usertext = TextEditingController();
+
   var emailtext =  TextEditingController();
+
   var phonetext = TextEditingController();
+
   var passtext = TextEditingController();
+
+  void pickImage()async
+  {
+
+   final imagePicked= await  imagePicker.pickImage(source: ImageSource.camera);
+   if(imagePicked!=null)
+     {
+       image=File(imagePicked.path);
+       setState(() {
+
+       });
+     }
+  }
+
   @override
   Widget build(BuildContext context) {
    return Center(
      child: Scaffold(
+       resizeToAvoidBottomInset: false,
        appBar: AppBar(title: Text('LogIn Page'),),
        body: Padding(
          padding: const EdgeInsets.all(15.0),
          child: Center(
            child: Container(
              width: 300,
-             height: 400,
+             height: 500,
              child: Column(
                mainAxisAlignment: MainAxisAlignment.start,
                children: [
@@ -38,6 +69,8 @@ class LogIn extends StatelessWidget{
                    keyboardType: TextInputType.name,
                    controller: usertext,
                    decoration: InputDecoration(
+                     labelText: 'User name',
+                     hintText: 'Enter Username',
                      focusedBorder: OutlineInputBorder(
                          borderRadius: BorderRadius.circular(10),
                          borderSide: BorderSide(
@@ -58,11 +91,11 @@ class LogIn extends StatelessWidget{
                          color: Colors.grey
                        )
                      ),
-                     suffixIcon: IconButton(
+                     prefixIcon: IconButton(
                        icon: Icon(Icons.account_circle),
                        onPressed: (){},
                      ),
-                     hintText: 'Enter Username',
+
                    ),
                  ),
 
@@ -71,6 +104,8 @@ class LogIn extends StatelessWidget{
                    keyboardType: TextInputType.emailAddress,
                    controller: emailtext ,
                    decoration: InputDecoration(
+                     labelText: 'email',
+                     hintText: 'Enter E-mail',
                      focusedBorder: OutlineInputBorder(
                          borderRadius: BorderRadius.circular(10),
                          borderSide: BorderSide(
@@ -85,11 +120,10 @@ class LogIn extends StatelessWidget{
                          width: 2
                        )
                      ),
-                     suffixIcon: IconButton(
+                     prefixIcon: IconButton(
                        icon: Icon(Icons.email),
                        onPressed:(){},
                      ),
-                     hintText: 'Enter E-mail',
                    ),
                  ),
                  SizedBox(height: 20,),
@@ -97,6 +131,8 @@ class LogIn extends StatelessWidget{
                    keyboardType: TextInputType.phone,
                    controller: phonetext,
                    decoration: InputDecoration(
+                     labelText: 'phone_no',
+                     hintText: 'Enter phone number',
                      focusedBorder: OutlineInputBorder(
                          borderRadius: BorderRadius.circular(10),
                          borderSide: BorderSide(
@@ -111,11 +147,10 @@ class LogIn extends StatelessWidget{
                            width: 2
                          )
                      ),
-                     suffixIcon: IconButton(
+                     prefixIcon: IconButton(
                        icon: Icon(Icons.phone),
                        onPressed: (){},
                      ),
-                     hintText: 'Enter phone number',
                    ),
                  ),
                  SizedBox(height: 20,),
@@ -123,6 +158,8 @@ class LogIn extends StatelessWidget{
                    controller: passtext,
                    obscureText: true,
                    decoration: InputDecoration(
+                     labelText: 'password',
+                     hintText: 'Enter Password',
                      focusedBorder: OutlineInputBorder(
                          borderRadius: BorderRadius.circular(10),
                          borderSide: BorderSide(
@@ -137,31 +174,34 @@ class LogIn extends StatelessWidget{
                              width: 2
                          )
                      ),
-                     suffixIcon: IconButton(
-                       icon: Icon(Icons.remove_red_eye),
+                     prefixIcon: IconButton(
+                       icon: Icon(Icons.key),
                        onPressed: (){},
-
                      ),
-                     hintText: 'Enter Password',
                    ),
                  ),
-                 SizedBox(height: 20,),
-                 OutlinedButton(
-                   child: Text('login'),
-                   style: OutlinedButton.styleFrom(
-                       primary: Colors.white,
-                       backgroundColor: Colors.deepPurple
-                   ),
-                   onPressed:(){
-                     String Name = usertext.text;
-                     String Email = emailtext.text;
-                     String PhoneNo = phonetext.text;
-                     String Password = passtext.text;
+                 SizedBox(height: 20 ,),
+                 SizedBox(
+                   height: 40,
+                   width: 150,
+                   child: OutlinedButton(
+                     child: Text('login', style: TextStyle(fontSize: 18),),
+                     style: OutlinedButton.styleFrom(
+                         primary: Colors.white,
+                         backgroundColor: Colors.deepPurple,
+                     ),
 
-                     print("Name: $Name, Email: $Email, PhoneNumber: $PhoneNo, Password: $Password");
-                   },
-
+                     onPressed:(){
+                           // String Name = usertext.text;
+                           // String Email = emailtext.text;
+                           // String PhoneNo = phonetext.text;
+                           // String Password = passtext.text;
+                       pickImage();
+                         }
+                         ),
                  ),
+
+
                ],
              ),
            ),
@@ -171,4 +211,6 @@ class LogIn extends StatelessWidget{
    );
   }
 }
+
+
 
