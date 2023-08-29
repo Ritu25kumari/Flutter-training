@@ -18,7 +18,6 @@ class SignUp extends StatelessWidget{
 }
 
 class LogIn extends StatefulWidget{
-
   @override
   State<LogIn> createState() => _LogInState();
 }
@@ -28,11 +27,8 @@ class _LogInState extends State<LogIn> {
   File? image;
 
   var usertext = TextEditingController();
-
   var emailtext =  TextEditingController();
-
   var phonetext = TextEditingController();
-
   var passtext = TextEditingController();
 
   void pickImage()async
