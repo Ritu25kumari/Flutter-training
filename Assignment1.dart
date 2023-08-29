@@ -9,7 +9,6 @@ class DataModel {
 
   DataModel({required this.name, required this.email, required this.phone, required this.password});
 }
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
