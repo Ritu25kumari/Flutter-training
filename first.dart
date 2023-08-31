@@ -34,3 +34,171 @@ class MyHomePage extends StatelessWidget{
     );
   }
 }
+
+
+
+//asyncronous programming
+//import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Async Programming Example',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  String _data = 'Fetching data...';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData(); // Fetch data when the widget is initialized.
+  }
+
+  Future<void> fetchData() async {
+    // Simulating an API call that takes some time.
+    await Future.delayed(Duration(seconds: 2));
+
+    // Simulated response from the API.
+    String apiResponse = 'Fetched data from API';
+
+    setState(() {
+      _data = apiResponse;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Async Programming Example'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              _data,
+              style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: fetchData,
+              child: Text('Fetch Data'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+//image picker
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Image Picker Example',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  late ImagePicker _imagePicker;
+  late PickedFile _imageFile;
+  bool _imageSelected = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _imagePicker = ImagePicker();
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    final pickedFile = await _imagePicker.getImage(source: source);
+
+    setState(() {
+      if (pickedFile != null) {
+        _imageFile = pickedFile;
+        _imageSelected = true;
+      } else {
+        _imageSelected = false;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Image Picker Example'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _imageSelected
+                ? Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: FileImage(
+                          _imageFile as dynamic,
+                        ),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  )
+                : Text('No image selected'),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () => _pickImage(ImageSource.gallery),
+              child: Text('Select Image from Gallery'),
+            ),
+            ElevatedButton(
+              onPressed: () => _pickImage(ImageSource.camera),
+              child: Text('Capture Image from Camera'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
