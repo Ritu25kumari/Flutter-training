@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-void main() => runApp(ScafFold());
+void main() => 
+  runApp(ScafFold());
 class ScafFold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
