@@ -37,6 +37,17 @@ class MyHomePage extends StatelessWidget{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 //asyncronous programming
 //import 'package:flutter/material.dart';
 
@@ -107,4 +118,62 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+
+
+
+
+
+
+
+import 'dart:convert';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'model.dart';
+
+class UserController extends GetxController {
+ // UserInfoModel? userinfomodel;
+  final userlist = <UserInfoModel>[];
+  TextEditingController idController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+
+  @override
+  void onInit() async{
+    super.onInit();
+    getUserData();
+  }
+  void getUserData() async{
+    try{
+      final userdata = await GetApi().fetchUsersData();
+      
+      if(userdata!=null){
+        userlist.addAll(userdata);
+      }
+    }
+    catch(e){
+      print('Error: $e');
+      return null;
+    }
+
+  }
+
+}
+ 
+class GetApi {
+  Future<UserInfoModel> fetchUsersData() async {
+    var response = await http.get(Uri.parse('https://gorest.co.in/public/v2/users'));
+    if (response.statusCode == 200) {
+      print(response.body);
+      final Map<String, dynamic> data = json.decode(response.body);
+      final userinforesponse = UserInfoModel.fromJson(data);
+      print(userinforesponse);
+      return userinforesponse;
+    } else {
+      throw Exception('Network problem');
+    }
+  }
+ 
 }
