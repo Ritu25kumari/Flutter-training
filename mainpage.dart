@@ -18,7 +18,6 @@ class MainPage extends StatelessWidget {
             Get.bottomSheet(
                 Container(
                   height: 600,
-
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                        color: Colors.purple[100],
@@ -33,7 +32,7 @@ class MainPage extends StatelessWidget {
                             controller: controller.idController,
                             decoration: InputDecoration(hintText: 'id'),
                             validator: (id){
-                              if( id == controller.userlist[1].id){
+                              if( id == controller.userlist[0].id){
                                 return 'enter valid id ';
                               }
                               return null;
@@ -88,16 +87,16 @@ class MainPage extends StatelessWidget {
          return ListView.builder(
               itemCount: controller.userlist.length,
               itemBuilder: (context , index){
-                if(controller.userlist!=null && controller.userlist!.isNotEmpty){
+                if(controller.userlist!=null && controller.userlist.isNotEmpty){
                   return Card(
                     child: ListTile(
                       title: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children:[
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                            children:[
                               Text('${controller.userlist[index].id}'),
                               IconButton(icon: Icon(Icons.delete),
                               onPressed: (){
@@ -111,13 +110,7 @@ class MainPage extends StatelessWidget {
                               Text('${controller.userlist[index].name}'),
                               IconButton(icon: Icon(Icons.edit),
                                 onPressed: (){
-                                    Get.bottomSheet(
-                                      Container(
-                                        
-                                        ),
-                                      );
-
-
+                                controller.updateUserData(controller.userlist[index].id.toString());
                                 },)
                             ],
                           ),
