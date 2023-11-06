@@ -34,7 +34,7 @@ class UserController extends GetxController {
   }
   void addUserData(UserInfoModel  adduser, ) {
     userlist.add(adduser);
-    userlist[1].id = generateid();
+    userlist[0].id = generateid();
     update();
   }
   void deleteUserData(int index){
@@ -45,6 +45,70 @@ class UserController extends GetxController {
   }
   String generateid(){
     return DateTime.now().millisecond.toString();
+  }
+  
+  void updateUserData(String id){
+    final index = userlist.indexWhere((users) => users.id==id);
+    if(index!=-1){
+      nameController.text = userlist[index].name;
+      emailController.text = userlist[index].email;
+      genderController.text = userlist[index].gender;
+      statusController.text= userlist[index].status;
+      Get.bottomSheet(SingleChildScrollView(
+        child: Container(
+          height: 400,
+          decoration: BoxDecoration(
+            color: Colors.purpleAccent[200],
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15)
+            )
+          ),
+          child: GetBuilder<UserController>(
+            builder: (controller){
+              return Column(
+                children: [
+                  SizedBox(height: 20,),
+                  Text('edit user',style: TextStyle(fontWeight:FontWeight.bold,fontSize: 20 ),),
+                  SizedBox(height: 20,),
+                  TextFormField(
+                    controller: controller.nameController,
+                    decoration: InputDecoration(
+                      hintText: 'name'
+                    ),
+                  ),
+                  TextFormField(
+                    controller: controller.emailController,
+                    decoration: InputDecoration(
+                        hintText: 'email'
+                    ),
+                  ),
+                  TextFormField(
+                    controller: controller.statusController,
+                    decoration: InputDecoration(
+                        hintText: 'status'
+                    ),
+                  ),
+                  TextFormField(
+                    controller: controller.genderController,
+                    decoration: InputDecoration(
+                        hintText: 'gender'
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  ElevatedButton(onPressed: (){
+                    userlist[index].name = controller.nameController.text;
+                    userlist[index].email = controller.emailController.text;
+                    userlist[index].status  = controller.statusController.text;
+                    userlist[index].gender = controller.genderController.text;
+                  }, child: Text('update'))
+                ],
+              );
+            },
+          ),
+        ),
+      ));
+    }
   }
 }
 
